@@ -17,4 +17,9 @@ class HealthCheckController extends AbstractController
             'status' => 'success',
         ]);
     }
+
+    public function uncoveredCode(): string
+    {
+        return 'test';
+    }
 }
