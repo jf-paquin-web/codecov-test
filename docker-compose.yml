@@ -1,0 +1,44 @@
+version: '3.5'
+
+services:
+  codecov_test_php:
+    container_name: codecov_test_php
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      target: codecov_test_php
+    image: ${PHP_IMAGE:-codecov_test/php}
+    volumes:
+      - .:/var/www/html:rw,cached
+      - ~/.ssh:/root/.ssh
+      # if you develop on Linux, you may use a bind-mounted host directory instead
+      # - ./var:/var/www/html/var:rw
+    environment:
+      - XDEBUG_MODE=debug
+    networks:
+      - backend
+
+  codecov_test_nginx:
+    container_name: codecov_test_nginx
+    build:
+      context: ./
+      target: codecov_test_nginx
+    image: ${NGINX_IMAGE:-codecov_test/nginx}
+    volumes:
+      - ./docker/nginx/conf.d-dev:/etc/nginx/conf.d
+      - .:/var/www/html
+    depends_on:
+      - codecov_test_php
+    ports:
+      - "8010:80"
+    networks:
+      backend:
+        aliases:
+          - codecov_test.local
+
+networks:
+  backend:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.0.8.1/24

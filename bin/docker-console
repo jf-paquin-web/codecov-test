@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+args="$@"
+docker exec codecov_test_php bash -c "bin/console $args"
