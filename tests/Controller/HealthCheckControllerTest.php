@@ -2,6 +2,7 @@
 
 namespace App\Tests\Controller;
 
+use App\Controller\HealthCheckController;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class HealthCheckControllerTest extends WebTestCase
@@ -14,5 +15,11 @@ class HealthCheckControllerTest extends WebTestCase
         $this->assertResponseIsSuccessful();
         $this->assertResponseHeaderSame('Content-Type', 'application/json');
         $this->assertStringContainsString('success', $client->getResponse()->getContent());
+    }
+
+    public function testUncoveredCode(): void
+    {
+        $controller = new HealthCheckController();
+        $this->assertEquals('test', $controller->uncoveredCode());
     }
 }
