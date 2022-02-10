@@ -17,9 +17,9 @@ class HealthCheckControllerTest extends WebTestCase
         $this->assertStringContainsString('success', $client->getResponse()->getContent());
     }
 
-    public function testUncoveredCode(): void
-    {
-        $controller = new HealthCheckController();
-        $this->assertEquals('test', $controller->uncoveredCode());
-    }
+//    public function testUncoveredCode(): void
+//    {
+//        $controller = new HealthCheckController();
+//        $this->assertEquals('test', $controller->uncoveredCode());
+//    }
 }
